@@ -3,7 +3,6 @@ import com.faizan.jobportal.model.Job;
 import org.springframework.stereotype.Service;
 import com.faizan.jobportal.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -11,21 +10,42 @@ import java.util.List;
 public class JobService {
     @Autowired
     private JobRepository jobrepository;
+
     public List<Job> getJobs() {
         return jobrepository.findAll();
     }
+
     public void addJob(Job job) {
         jobrepository.save(job);
     }
-    public Job getJobId(int id){
+
+    public Job getJobId(int id) {
         return jobrepository.findById(id).orElse(null);
     }
-    public void deleteJob(int id){
+
+    public void deleteJob(int id) {
         jobrepository.deleteById(id);
     }
-    public void updateJob(Job job){
+
+    public void updateJob(Job job) {
         jobrepository.save(job);
     }
+    public List<Job> getCompany(String company) {
+        return jobrepository.findByCompanyIgnoreCase(company);
+    }
+    public List<Job> getCompanyAndLocation(String company, String location) {
+        return jobrepository.findByCompanyIgnoreCaseAndLocationIgnoreCase(company, location);
+    }
+    public List<Job> getTitleSearch(String title) {
+        return jobrepository.findByTitleContainingIgnoreCase(title);
+    }
+    public List<Job> getTitleStartingWith(String title) {
+        return jobrepository.findByTitleStartingWithIgnoreCase(title);
+    }
+    public List<Job> getOrderTitle() {
+        return jobrepository.findByOrderByTitleAsc();
+    }
+ }
 
 
 
@@ -45,4 +65,4 @@ public class JobService {
 
 
 
-}
+

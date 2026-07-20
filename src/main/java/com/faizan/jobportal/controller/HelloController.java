@@ -55,4 +55,26 @@ public class HelloController {
         jobservice.updateJob(job);
         return ResponseEntity.ok("Job Updated");
    }
-}
+
+   @GetMapping("/Job/company/{company}")
+    public List<Job> getJobByCompany(@PathVariable String company){
+        return jobservice.getCompany(company);
+   }
+
+   @GetMapping("/Job/company/{company}/location/{location}")
+    public List<Job> getJobByCompanyAndLocation(@PathVariable String company, @PathVariable String location){
+        return jobservice.getCompanyAndLocation(company, location);
+   }
+   @GetMapping("/Job/title/{title}")
+    public List<Job> getJobByTitle(@PathVariable String title){
+        return jobservice.getTitleSearch(title);
+   }
+    @GetMapping("/Job/title/startswith/{title}")
+    public List<Job> getJobByTitleStartingWith(@PathVariable String title){
+        return jobservice.getTitleStartingWith(title);
+    }
+    @GetMapping("/Job/title/order")
+    public List<Job> getJobByTitleOrderByTitle(){
+        return jobservice.getOrderTitle();
+    }
+ }
