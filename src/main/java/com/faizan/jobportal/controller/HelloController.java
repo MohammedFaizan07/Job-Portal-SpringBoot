@@ -5,13 +5,8 @@ import com.faizan.jobportal.model.Job;
 import com.faizan.jobportal.service.JobService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.data.repository.query.Param;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import java.util.List;
 
@@ -60,11 +55,6 @@ public class HelloController {
     public List<Job> getJobByCompany(@PathVariable String company){
         return jobservice.getCompany(company);
    }
-
-   @GetMapping("/Job/company/{company}/location/{location}")
-    public List<Job> getJobByCompanyAndLocation(@PathVariable String company, @PathVariable String location){
-        return jobservice.getCompanyAndLocation(company, location);
-   }
    @GetMapping("/Job/title/{title}")
     public List<Job> getJobByTitle(@PathVariable String title){
         return jobservice.getTitleSearch(title);
@@ -76,5 +66,30 @@ public class HelloController {
     @GetMapping("/Job/title/order")
     public List<Job> getJobByTitleOrderByTitle(){
         return jobservice.getOrderTitle();
+    }
+    @GetMapping("/Job/titles")
+    public List<String> getAllJobTitles(){
+        return jobservice.getAllJobTitles();
+    }
+    @GetMapping("/Job/company/{company}/location/{location}")
+    public List<Job> getJobByCompanyAndLocation(@PathVariable String company,@PathVariable String location){
+        return jobservice.getJobByCompanyAndLocation(company,location);
+    }
+    @GetMapping("/Job/total/count")
+    public Long jobCount(){
+        return jobservice.jobCount();
+    }
+    @GetMapping("/Job/companies")
+    public List<Job> getCompanies(@RequestParam List<String> names){
+        return jobservice.getCompanies(names);
+    }
+    @GetMapping("/Job/id/{startid}/{endid}")
+    public List<Job> getJobBetweenIds(@PathVariable Integer startId , @PathVariable Integer endId){
+        return jobservice.getJobBetweenIds(startId,endId);
+    }
+    @GetMapping("/Job/company/{company}")
+    public ResponseEntity<String> deleteJobByCompany(@PathVariable String company){
+        int deleted = jobservice.deleteJobByCompany(company);
+        return ResponseEntity.ok(deleted + "Job deleted successfully");
     }
  }

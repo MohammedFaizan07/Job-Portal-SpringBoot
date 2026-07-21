@@ -33,9 +33,6 @@ public class JobService {
     public List<Job> getCompany(String company) {
         return jobrepository.findByCompanyIgnoreCase(company);
     }
-    public List<Job> getCompanyAndLocation(String company, String location) {
-        return jobrepository.findByCompanyIgnoreCaseAndLocationIgnoreCase(company, location);
-    }
     public List<Job> getTitleSearch(String title) {
         return jobrepository.findByTitleContainingIgnoreCase(title);
     }
@@ -44,6 +41,24 @@ public class JobService {
     }
     public List<Job> getOrderTitle() {
         return jobrepository.findByOrderByTitleAsc();
+    }
+    public List<String> getAllJobTitles(){
+        return jobrepository.getAllJobTitles();
+    }
+    public List<Job> getJobByCompanyAndLocation(String company , String location){
+        return jobrepository.getJobByCompanyAndLocation(company,location);
+    }
+    public Long jobCount(){
+        return jobrepository.jobCount();
+    }
+    public List<Job> getCompanies(List<String> companies){
+        return jobrepository.getCompanies(companies);
+    }
+    public List<Job> getJobBetweenIds(Integer startId, Integer endId){
+        return jobrepository.getJobBetweenIds(startId,endId);
+    }
+    public int deleteJobByCompany(String company){
+        return jobrepository.deleteJobByCompany(company);
     }
  }
 
