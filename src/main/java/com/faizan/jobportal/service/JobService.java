@@ -1,5 +1,11 @@
 package com.faizan.jobportal.service;
 import com.faizan.jobportal.model.Job;
+import com.faizan.jobportal.specification.JobSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
+
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.faizan.jobportal.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +17,8 @@ public class JobService {
     @Autowired
     private JobRepository jobrepository;
 
-    public List<Job> getJobs() {
-        return jobrepository.findAll();
+    public Page<Job> getJobs(Pageable pageable) {
+        return jobrepository.findAll(pageable);
     }
 
     public void addJob(Job job) {
@@ -59,6 +65,22 @@ public class JobService {
     }
     public int deleteJobByCompany(String company){
         return jobrepository.deleteJobByCompany(company);
+    }
+    public List<Job> serachJobs(String company, String location , String title){
+        Specification<Job> specification = Specification.unrestricted();
+        if (company != null) {
+            specification = specification.and(JobSpecification.hasCompany(company));
+        }
+
+        if (location != null) {
+            specification = specification.and(JobSpecification.hasLocation(location));
+        }
+
+        if (title != null) {
+            specification = specification.and(JobSpecification.hasTitle(title));
+        }
+
+        return jobrepository.findAll(specification);
     }
  }
 
